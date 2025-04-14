@@ -9,13 +9,13 @@
       background-color: #fff5f8;
       font-family: 'Segoe UI', sans-serif;
       color: #333;
-      max-width: 500px;
+      max-width: 600px;
       margin: 2rem auto;
       padding: 2rem;
       border-radius: 1rem;
       box-shadow: 0 0 20px rgba(0,0,0,0.05);
     }
-    h1 {
+    h1, h2 {
       text-align: center;
       color: #e87ca0;
     }
@@ -39,7 +39,7 @@
       width: 100%;
       margin-top: 1.5rem;
     }
-    .results {
+    .results, .cheat-sheet {
       margin-top: 2rem;
       background: #fff;
       padding: 1rem;
@@ -48,6 +48,19 @@
     }
     .results p {
       margin: 0.5rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      padding: 0.5rem;
+      border: 1px solid #eee;
+      text-align: center;
+    }
+    th {
+      background-color: #fbd6df;
     }
   </style>
 </head>
@@ -63,10 +76,10 @@
     <option value="M">Male</option>
   </select>
 
-  <label for="height">Height (cm) 📏</label>
+  <label for="height">Height (inches) 📏</label>
   <input type="number" id="height" />
 
-  <label for="weight">Weight (kg) ⚖️</label>
+  <label for="weight">Weight (lbs) ⚖️</label>
   <input type="number" id="weight" />
 
   <label for="activity">Activity Level ⚡</label>
@@ -88,19 +101,29 @@
   <button onclick="calculateMacros()">Calculate</button>
 
   <div class="results" id="results" style="display:none">
-    <h2>Results:</h2>
+    <h2>Your Results:</h2>
     <p id="calories"></p>
     <p id="protein"></p>
     <p id="fat"></p>
     <p id="carbs"></p>
   </div>
 
+  <div class="cheat-sheet">
+    <h2>Macro Cheat Sheet 💡</h2>
+    <table>
+      <tr><th>Goal</th><th>Protein (g/lb)</th><th>Carbs (g/lb)</th><th>Fat (g/lb)</th><th>Notes</th></tr>
+      <tr><td>Cutting</td><td>1.0–1.2</td><td>0.8–1.0</td><td>0.3–0.4</td><td>Lower carbs, high protein</td></tr>
+      <tr><td>Maintenance</td><td>0.8–1.0</td><td>1.0–1.5</td><td>0.4–0.5</td><td>Balanced intake</td></tr>
+      <tr><td>Bulking</td><td>0.8–1.0</td><td>2.0–2.5</td><td>0.5–0.6</td><td>High carbs for growth</td></tr>
+    </table>
+  </div>
+
   <script>
     function calculateMacros() {
       const age = parseInt(document.getElementById('age').value);
       const gender = document.getElementById('gender').value;
-      const height = parseFloat(document.getElementById('height').value);
-      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value) * 2.54;
+      const weight = parseFloat(document.getElementById('weight').value) / 2.205;
       const activity = parseFloat(document.getElementById('activity').value);
       const goal = document.getElementById('goal').value;
 
@@ -110,7 +133,7 @@
 
       const tdee = bmr * activity;
       const calorieGoal = goal === 'cut' ? tdee - 500 : goal === 'bulk' ? tdee + 250 : tdee;
-      const protein = weight * 2.2;
+      const protein = (weight * 2.205) * 1.0;
       const fat = (calorieGoal * 0.25) / 9;
       const carbs = (calorieGoal - (protein * 4 + fat * 9)) / 4;
 
