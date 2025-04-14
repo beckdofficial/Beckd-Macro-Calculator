@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,143 +7,56 @@
   <title>Beckd Macro Calculator</title>
   <style>
     body {
-      background-color: #fff5f8;
-      font-family: 'Segoe UI', sans-serif;
-      color: #333;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      font-family: Arial, sans-serif;
+      background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE...");
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
     }
-    h1, h2 {
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 15px;
+    }
+    h1 {
+      color: #d63384;
       text-align: center;
-      color: #e87ca0;
+      font-weight: bold;
     }
     label {
       display: block;
-      margin: 1rem 0 0.3rem;
+      margin-top: 15px;
+      font-weight: bold;
     }
     input, select {
       width: 100%;
-      padding: 0.5rem;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 0.5rem;
-    }
-    button {
-      background-color: #e87ca0;
-      color: white;
-      padding: 0.7rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      width: 100%;
-      margin-top: 1.5rem;
-    }
-    .results, .cheat-sheet {
-      margin-top: 2rem;
-      background: #fff;
-      padding: 1rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-    }
-    .results p {
-      margin: 0.5rem 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    th, td {
-      padding: 0.5rem;
-      border: 1px solid #eee;
-      text-align: center;
-    }
-    th {
-      background-color: #fbd6df;
     }
   </style>
 </head>
 <body>
-  <h1>Beckd Macro Calculator ✨</h1>
-
-  <label for="age">Age ✨</label>
-  <input type="number" id="age" />
-
-  <label for="gender">Gender ♀️♂️</label>
-  <select id="gender">
-    <option value="F">Female</option>
-    <option value="M">Male</option>
-  </select>
-
-  <label for="height">Height (inches) 📏</label>
-  <input type="number" id="height" />
-
-  <label for="weight">Weight (lbs) ⚖️</label>
-  <input type="number" id="weight" />
-
-  <label for="activity">Activity Level ⚡</label>
-  <select id="activity">
-    <option value="1.2">Sedentary</option>
-    <option value="1.375">Lightly Active</option>
-    <option value="1.55">Moderately Active</option>
-    <option value="1.725">Very Active</option>
-    <option value="1.9">Super Active</option>
-  </select>
-
-  <label for="goal">Goal 🎯</label>
-  <select id="goal">
-    <option value="cut">Cut</option>
-    <option value="maintain">Maintain</option>
-    <option value="bulk">Bulk</option>
-  </select>
-
-  <button onclick="calculateMacros()">Calculate</button>
-
-  <div class="results" id="results" style="display:none">
-    <h2>Your Results:</h2>
-    <p id="calories"></p>
-    <p id="protein"></p>
-    <p id="fat"></p>
-    <p id="carbs"></p>
+  <div class="container">
+    <h1>Beckd Macro Calculator✨</h1>
+    <label>Age ✨</label>
+    <input type="number" />
+    <label>Gender ♀️♂️</label>
+    <select><option>Female</option><option>Male</option></select>
+    <label>Height Unit ✏️</label>
+    <select><option>Feet & Inches</option></select>
+    <label>Feet:</label>
+    <input type="number" />
+    <label>Inches:</label>
+    <input type="number" />
+    <label>Weight Unit ⚖️</label>
+    <select><option>Pounds (lbs)</option></select>
+    <label>Weight (lbs):</label>
+    <input type="number" />
   </div>
-
-  <div class="cheat-sheet">
-    <h2>Macro Cheat Sheet 💡</h2>
-    <table>
-      <tr><th>Goal</th><th>Protein (g/lb)</th><th>Carbs (g/lb)</th><th>Fat (g/lb)</th><th>Notes</th></tr>
-      <tr><td>Cutting</td><td>1.0–1.2</td><td>0.8–1.0</td><td>0.3–0.4</td><td>Lower carbs, high protein</td></tr>
-      <tr><td>Maintenance</td><td>0.8–1.0</td><td>1.0–1.5</td><td>0.4–0.5</td><td>Balanced intake</td></tr>
-      <tr><td>Bulking</td><td>0.8–1.0</td><td>2.0–2.5</td><td>0.5–0.6</td><td>High carbs for growth</td></tr>
-    </table>
-  </div>
-
-  <script>
-    function calculateMacros() {
-      const age = parseInt(document.getElementById('age').value);
-      const gender = document.getElementById('gender').value;
-      const height = parseFloat(document.getElementById('height').value) * 2.54;
-      const weight = parseFloat(document.getElementById('weight').value) / 2.205;
-      const activity = parseFloat(document.getElementById('activity').value);
-      const goal = document.getElementById('goal').value;
-
-      const bmr = gender === 'M'
-        ? 10 * weight + 6.25 * height - 5 * age + 5
-        : 10 * weight + 6.25 * height - 5 * age - 161;
-
-      const tdee = bmr * activity;
-      const calorieGoal = goal === 'cut' ? tdee - 500 : goal === 'bulk' ? tdee + 250 : tdee;
-      const protein = (weight * 2.205) * 1.0;
-      const fat = (calorieGoal * 0.25) / 9;
-      const carbs = (calorieGoal - (protein * 4 + fat * 9)) / 4;
-
-      document.getElementById('results').style.display = 'block';
-      document.getElementById('calories').textContent = `Calorie Goal 🔥: ${calorieGoal.toFixed(0)} kcal`;
-      document.getElementById('protein').textContent = `Protein 💪: ${protein.toFixed(0)}g`;
-      document.getElementById('fat').textContent = `Fat 🥑: ${fat.toFixed(0)}g`;
-      document.getElementById('carbs').textContent = `Carbs 🍞: ${carbs.toFixed(0)}g`;
-    }
-  </script>
 </body>
 </html>
