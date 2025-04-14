@@ -3,60 +3,244 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Beckd Macro Calculator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-image: url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQE...");
-      background-size: cover;
-      background-position: center;
-      margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff7cc;
+      color: #D74D26;
+      padding: 40px;
     }
     .container {
-      max-width: 500px;
-      margin: 50px auto;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      border-radius: 15px;
+      max-width: 600px;
+      margin: auto;
+      background: #FFF2AC;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
     }
     h1 {
-      color: #d63384;
       text-align: center;
-      font-weight: bold;
+      font-size: 2em;
+      margin-bottom: 30px;
+      color: #C03D2B;
     }
     label {
       display: block;
-      margin-top: 15px;
+      margin-top: 20px;
       font-weight: bold;
+      font-size: 1.1em;
     }
     input, select {
       width: 100%;
       padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
+      font-size: 1em;
+      border-radius: 10px;
       border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+    button {
+      margin-top: 30px;
+      background: #C03D2B;
+      color: #fff;
+      border: none;
+      padding: 15px;
+      font-size: 1em;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .results {
+      background-color: #fff0d6;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 10px;
+    }
+    .quote {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #C03D2B;
+    }
+    .cheat-sheet {
+      margin-top: 30px;
+      max-height: 200px;
+      overflow-y: auto;
+      background: #fffde7;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    .cheat-sheet table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .cheat-sheet th, .cheat-sheet td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+    .cheat-sheet th {
+      background: #ffe29a;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Beckd Macro Calculator✨</h1>
-    <label>Age ✨</label>
-    <input type="number" />
-    <label>Gender ♀️♂️</label>
-    <select><option>Female</option><option>Male</option></select>
-    <label>Height Unit ✏️</label>
-    <select><option>Feet & Inches</option></select>
-    <label>Feet:</label>
-    <input type="number" />
-    <label>Inches:</label>
-    <input type="number" />
-    <label>Weight Unit ⚖️</label>
-    <select><option>Pounds (lbs)</option></select>
-    <label>Weight (lbs):</label>
-    <input type="number" />
+    <h1>✨ Beckd Macro Calculator ✨</h1>
+
+    <label for="age">Age ✨</label>
+    <input type="number" id="age" />
+
+    <label for="gender">Gender ♀️♂️</label>
+    <select id="gender">
+      <option value="female">Female</option>
+      <option value="male">Male</option>
+    </select>
+
+    <label for="height-unit">Height Unit 📏</label>
+    <select id="height-unit" onchange="toggleHeightUnit()">
+      <option value="feet">Feet & Inches</option>
+      <option value="cm">Centimeters</option>
+    </select>
+
+    <div id="height-feet-group">
+      <label for="height-feet">Feet 📏</label>
+      <input type="number" id="height-feet" />
+      <label for="height-inches">Inches 📏</label>
+      <input type="number" id="height-inches" />
+    </div>
+
+    <div id="height-cm-group" style="display:none;">
+      <label for="height-cm">Height (cm) 📏</label>
+      <input type="number" id="height-cm" />
+    </div>
+
+    <label for="weight-unit">Weight Unit ⚖️</label>
+    <select id="weight-unit" onchange="toggleWeightUnit()">
+      <option value="lbs">Pounds (lbs)</option>
+      <option value="kg">Kilograms (kg)</option>
+    </select>
+
+    <div id="weight-lbs-group">
+      <label for="weight-lbs">Weight (lbs) ⚖️</label>
+      <input type="number" id="weight-lbs" />
+    </div>
+
+    <div id="weight-kg-group" style="display:none;">
+      <label for="weight-kg">Weight (kg) ⚖️</label>
+      <input type="number" id="weight-kg" />
+    </div>
+
+    <label for="activity">Activity Level ⚡</label>
+    <select id="activity">
+      <option value="1.2">Sedentary</option>
+      <option value="1.375">Lightly Active</option>
+      <option value="1.55">Moderately Active</option>
+      <option value="1.725">Very Active</option>
+      <option value="1.9">Super Active</option>
+    </select>
+
+    <label for="goal">Goal 🎯</label>
+    <select id="goal">
+      <option value="maintain">Maintain</option>
+      <option value="lose">Lose Fat</option>
+      <option value="gain">Gain Muscle</option>
+    </select>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="results" id="results" style="display:none;"></div>
+
+    <div class="cheat-sheet">
+      <h3 style="text-align:center;">Macro Cheat Sheet 💡</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Goal</th>
+            <th>Protein (g/lb)</th>
+            <th>Carbs (g/lb)</th>
+            <th>Fats (g/lb)</th>
+            <th>Tips</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Cut</td><td>1.0–1.2</td><td>0.8–1.0</td><td>0.3–0.4</td><td>Focus on protein, lower carbs</td></tr>
+          <tr><td>Maintain</td><td>0.8–1.0</td><td>1.0–1.5</td><td>0.4–0.5</td><td>Balance intake evenly</td></tr>
+          <tr><td>Bulk</td><td>0.8–1.0</td><td>2.0–2.5</td><td>0.5–0.6</td><td>Carbs fuel growth</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="quote">
+      “Look better. Feel stronger. Make small changes, stay consistent,<br>
+      and become the best version of you — inside and out.” ❤️
+    </div>
   </div>
+
+  <script>
+    function toggleHeightUnit() {
+      const unit = document.getElementById("height-unit").value;
+      document.getElementById("height-feet-group").style.display = unit === "feet" ? "block" : "none";
+      document.getElementById("height-cm-group").style.display = unit === "cm" ? "block" : "none";
+    }
+
+    function toggleWeightUnit() {
+      const unit = document.getElementById("weight-unit").value;
+      document.getElementById("weight-lbs-group").style.display = unit === "lbs" ? "block" : "none";
+      document.getElementById("weight-kg-group").style.display = unit === "kg" ? "block" : "none";
+    }
+
+    function calculate() {
+      const age = parseInt(document.getElementById("age").value);
+      const gender = document.getElementById("gender").value;
+      const activity = parseFloat(document.getElementById("activity").value);
+      const goal = document.getElementById("goal").value;
+
+      let heightCm = 0;
+      if (document.getElementById("height-unit").value === "feet") {
+        const feet = parseFloat(document.getElementById("height-feet").value);
+        const inches = parseFloat(document.getElementById("height-inches").value || 0);
+        heightCm = (feet * 12 + inches) * 2.54;
+      } else {
+        heightCm = parseFloat(document.getElementById("height-cm").value);
+      }
+
+      let weightKg = 0;
+      if (document.getElementById("weight-unit").value === "lbs") {
+        const lbs = parseFloat(document.getElementById("weight-lbs").value);
+        weightKg = lbs / 2.205;
+      } else {
+        weightKg = parseFloat(document.getElementById("weight-kg").value);
+      }
+
+      let bmr = gender === "male"
+        ? 10 * weightKg + 6.25 * heightCm - 5 * age + 5
+        : 10 * weightKg + 6.25 * heightCm - 5 * age - 161;
+
+      let tdee = bmr * activity;
+      if (goal === "lose") tdee -= 500;
+      else if (goal === "gain") tdee += 500;
+
+      const protein = weightKg * 2.2;
+      const fat = (tdee * 0.25) / 9;
+      const carbs = (tdee - (protein * 4 + fat * 9)) / 4;
+
+      document.getElementById("results").style.display = "block";
+      document.getElementById("results").innerHTML = `
+        <p><strong>BMR:</strong> ${Math.round(bmr)} kcal</p>
+        <p><strong>TDEE:</strong> ${Math.round(tdee)} kcal</p>
+        <p><strong>🔥 Calories:</strong> ${Math.round(tdee)} kcal</p>
+        <p><strong>💪 Protein:</strong> ${Math.round(protein)} g</p>
+        <p><strong>🥑 Fats:</strong> ${Math.round(fat)} g</p>
+        <p><strong>🍞 Carbs:</strong> ${Math.round(carbs)} g</p>
+      `;
+    }
+
+    toggleHeightUnit();
+    toggleWeightUnit();
+  </script>
 </body>
 </html>
